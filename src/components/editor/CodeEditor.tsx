@@ -5,6 +5,7 @@ import axios from "axios"
 interface CodeEditorProps {
     initialCode?: string;
     onCodeChange?: (code: string | undefined) => void;
+    activeSnippet?: { title: string, language: string, code: string } | null;
 }
 
 const LANGUAGES = [
@@ -22,11 +23,19 @@ const LANGUAGES = [
     { id: "cpp", name: "C++" },
 ];
 
-export default function CodeEditor({ initialCode, onCodeChange }: CodeEditorProps) {
+export default function CodeEditor({ initialCode, onCodeChange, activeSnippet }: CodeEditorProps) {
     const monaco = useMonaco();
     const [title, setTitle] = useState({ title: "" })
     const [language, setLanguage] = useState("typescript");
     const [code, setCode] = useState(initialCode || "// Write your code snippet here...\n\nfunction helloWorld() {\n  console.log('Hello, ByteMe!');\n}\n");
+
+    useEffect(() => {
+        if (activeSnippet) {
+            setTitle({ title: activeSnippet.title });
+            setLanguage(activeSnippet.language);
+            setCode(activeSnippet.code);
+        }
+    }, [activeSnippet]);
     useEffect(() => {
         if (!monaco) return;
 

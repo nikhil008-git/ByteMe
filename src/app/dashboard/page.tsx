@@ -5,7 +5,7 @@ import { useSession, signOut } from "@/lib/auth-client";
 import { useEffect, useState, useRef } from "react";
 import CodeEditor from "@/components/editor/CodeEditor";
 import * as htmlToImage from "html-to-image";
-
+import UserSnippetpanel from "@/components/pages/dashboard/userSnippetPanel";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -15,6 +15,7 @@ export default function DashboardPage() {
   const [backgroundStyle, setBackgroundStyle] = useState<string>("#171717");
   const [noise, setNoise] = useState(0);
   const [borderRadius, setBorderRadius] = useState(16);
+  const [activeSnippet, setActiveSnippet] = useState<{ title: string, language: string, code: string } | null>(null);
 
 
   const editorRef = useRef<HTMLDivElement>(null);
@@ -48,6 +49,7 @@ export default function DashboardPage() {
 
   return (
     <div className="flex h-screen w-full bg-neutral-950 overflow-hidden font-mono">
+      <UserSnippetpanel onSelectSnippet={(snippet) => setActiveSnippet(snippet)} />
       {/* Main Workspace Area */}
       <main className="flex-1 flex flex-col relative w-full h-full">
         <header className="flex justify-between items-center p-4 border-b border-neutral-800 bg-neutral-950/50 backdrop-blur top-0 z-10">
@@ -93,7 +95,7 @@ export default function DashboardPage() {
                 style={{
                   backgroundImage: `url(/noise.png)`,
                   opacity: noise / 100,
-                  mixBlendMode: "overlay" // Looks better for noise
+                  mixBlendMode: "overlay" // Looks better for noise .... kets see
                 }}
               />
             )}
@@ -102,7 +104,7 @@ export default function DashboardPage() {
               className="w-full h-full relative z-10 overflow-hidden shadow-2xl border border-neutral-800/50"
               style={{ borderRadius: `${borderRadius}px` }}
             >
-              <CodeEditor />
+              <CodeEditor activeSnippet={activeSnippet} />
             </div>
           </div>
         </div>

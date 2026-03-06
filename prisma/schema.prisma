@@ -84,7 +84,7 @@ model Snippet {
   language  String
   source    SnippetSource @default(MANUAL)
   isPublic  Boolean  @default(true)
-
+  
   userId String?
   user   User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 

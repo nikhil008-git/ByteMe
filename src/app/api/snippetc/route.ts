@@ -16,7 +16,7 @@ export async function POST(req: Request) {
         const body = await req.json()
 
         const snippet = await prisma.snippet.create({
-            // @ts-ignore
+
             data: {
                 title: body.title,
                 code: body.code,

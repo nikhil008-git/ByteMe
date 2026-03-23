@@ -1,8 +1,9 @@
 import Home from "@/components/pages/home/Home";
 import Header from "@/components/common/header";
+
 export default function HomePage() {
   return (
-    <div className=" border border-neutral-900 w-[1150px] mx-auto">
+    <div className="min-h-screen flex flex-col bg-neutral-950 text-white">
       <Header />
       <Home />
     </div>

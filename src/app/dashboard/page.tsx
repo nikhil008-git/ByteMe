@@ -11,10 +11,11 @@ export default function DashboardPage() {
   const router = useRouter();
   const { data: session, isPending } = useSession();
 
-  const [bgTab, setBgTab] = useState<"solid" | "gradients" | "wallpapers">("solid");
+  const [bgTab, setBgTab] = useState<"solid" | "gradients">("solid");
   const [backgroundStyle, setBackgroundStyle] = useState<string>("#171717");
   const [noise, setNoise] = useState(0);
   const [borderRadius, setBorderRadius] = useState(16);
+  const [padding, setPadding] = useState(48);
   const [activeSnippet, setActiveSnippet] = useState<{ title: string, language: string, code: string } | null>(null);
 
 
@@ -83,9 +84,10 @@ export default function DashboardPage() {
           <div
             ref={editorRef} //here like we targetted the container. we wanna donwload
 
-            className="w-full h-full max-w-5xl rounded-lg shadow-2xl transition-all duration-300 relative group flex items-center justify-center p-12 overflow-hidden "
+            className="w-full h-full max-w-5xl rounded-lg shadow-2xl transition-all duration-300 relative group flex items-center justify-center overflow-hidden "
             style={{
               background: backgroundStyle,
+              padding: `${padding}px`,
             }}
           >
             {/* Noise overlay */}
@@ -120,6 +122,8 @@ export default function DashboardPage() {
         setNoise={setNoise}
         borderRadius={borderRadius}
         setBorderRadius={setBorderRadius}
+        padding={padding}
+        setPadding={setPadding}
       />
     </div>
   );

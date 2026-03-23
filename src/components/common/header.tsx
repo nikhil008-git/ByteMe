@@ -1,7 +1,9 @@
 export default function Header() {
     return (
-        <div className="  border-b-2 border-dashed  border-neutral-800 w-[1150px] mx-auto flex justify-between items-center p-6">
-            <h1>Header</h1>
-        </div>
+        <header className="border-b border-neutral-800 w-full bg-neutral-950">
+            <div className="max-w-7xl mx-auto flex justify-between items-center p-6 text-white">
+                <h1 className="text-xl font-bold tracking-tight">ByteMe</h1>
+            </div>
+        </header>
     );
 }

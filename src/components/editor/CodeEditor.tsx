@@ -119,65 +119,64 @@ export default function CodeEditor({ initialCode, onCodeChange, activeSnippet }:
         >
             <div className="w-full h-full flex flex-col rounded-lg  bg-neutral-950 overflow-hidden shadow-2xl relative">
                 {/* Editor Header / Toolbar */}
-                <div className="flex justify-between items-center px-4 py-2 bg-black border-b border-neutral-800">
-                    <div className="flex gap-1.5 items-center">
-                    </div>
-                    <div className="border border-neutral-900 text-white">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 px-4 py-3 bg-black border-b border-neutral-800 w-full">
+                    {/* Left side: Title input */}
+                    <div className="flex items-center w-full sm:w-auto">
                         <input
                             type="text"
                             placeholder="enter title.txt"
                             value={title.title}
-                            onChange={(e) => {
-                                setTitle({
-                                    ...title,
-                                    title: e.target.value
-                                }
-                                )
-
-                            }}
-
+                            onChange={(e) => setTitle({ ...title, title: e.target.value })}
+                            className="bg-neutral-900 border border-neutral-700 text-white px-3 py-1.5 rounded text-sm outline-none focus:border-neutral-500 transition-colors w-full sm:w-64"
                         />
                     </div>
 
-                    {/* Language Selector */}
-                    <select
-                        value={language}
-                        onChange={(e) => setLanguage(e.target.value)}
-                        className="bg-neutral-800 text-neutral-300 text-xs px-2 py-1 rounded outline-none border border-neutral-700 hover:border-neutral-500 transition-colors cursor-pointer appearance-none pr-6 font-mono"
-                        style={{
-                            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a3a3a3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
-                            backgroundRepeat: "no-repeat",
-                            backgroundPosition: "right 6px center",
-                        }}
-                    >
-                        {LANGUAGES.map((lang) => (
-                            <option key={lang.id} value={lang.id}>
-                                {lang.name}
-                            </option>
-                        ))}
-                    </select> <button
-                        type="submit"
-                        className="bg-black border border-neutral-800 text-white px-4 py-1 rounded hover:bg-green-700 transition-colors text-sm"
-                    >
-                        save
-                    </button>
+                    {/* Right side: AI, Language, Save */}
+                    <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                        {/* AI Input */}
+                        <div className="flex items-center gap-2 flex-grow sm:flex-grow-0">
+                            <input
+                                type="text"
+                                placeholder="Ask AI to generate code..."
+                                value={aiPrompt}
+                                onChange={(e) => setAiPrompt(e.target.value)}
+                                className="bg-neutral-800 text-neutral-300 text-sm px-3 py-1.5 rounded outline-none border border-neutral-700 hover:border-neutral-600 focus:border-neutral-500 transition-colors flex-grow w-48 sm:w-64"
+                            />
+                            <button
+                                type="button"
+                                onClick={handleAIGenerate}
+                                disabled={isGenerating}
+                                className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 text-white px-3 py-1.5 rounded text-sm transition-colors whitespace-nowrap font-medium"
+                            >
+                                {isGenerating ? "Generating..." : "Generate"}
+                            </button>
+                        </div>
 
-                </div>
-                <div className="flex gap-2 items-center">
-                    <input
-                        type="text"
-                        placeholder="Ask AI to generate code..."
-                        value={aiPrompt}
-                        onChange={(e) => setAiPrompt(e.target.value)}
-                        className="bg-neutral-800 text-neutral-300 text-xs px-2 py-1 rounded outline-none border border-neutral-700 hover:border-neutral-500 transition-colors"
-                    />
-                    <button
-                        onClick={handleAIGenerate}
-                        disabled={isGenerating}
-                        className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 text-white px-3 py-1 rounded text-xs transition-colors"
-                    >
-                        {isGenerating ? "Generating..." : "Generate"}
-                    </button>
+                        {/* Language Selector */}
+                        <select
+                            value={language}
+                            onChange={(e) => setLanguage(e.target.value)}
+                            className="bg-neutral-800 text-neutral-300 text-sm px-3 py-1.5 rounded outline-none border border-neutral-700 hover:border-neutral-600 focus:border-neutral-500 transition-colors cursor-pointer appearance-none pr-8 font-mono"
+                            style={{
+                                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a3a3a3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E")`,
+                                backgroundRepeat: "no-repeat",
+                                backgroundPosition: "right 8px center",
+                            }}
+                        >
+                            {LANGUAGES.map((lang) => (
+                                <option key={lang.id} value={lang.id}>
+                                    {lang.name}
+                                </option>
+                            ))}
+                        </select>
+                        
+                        <button
+                            type="submit"
+                            className="bg-white text-black px-4 py-1.5 rounded hover:bg-neutral-200 transition-colors text-sm font-medium whitespace-nowrap"
+                        >
+                            Save
+                        </button>
+                    </div>
                 </div>
 
                 {/* Monaco Editor Container */}

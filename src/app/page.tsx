@@ -3,9 +3,9 @@ import Header from "@/components/common/header";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col bg-neutral-950 text-white">
+    <main className="min-h-screen flex flex-col bg-[#000000] text-white font-sans selection:bg-white/20">
       <Header />
       <Home />
-    </div>
+    </main>
   );
 }

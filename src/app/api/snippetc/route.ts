@@ -16,16 +16,15 @@ export async function POST(req: Request) {
         const body = await req.json()
 
         const snippet = await prisma.snippet.create({
-
             data: {
                 title: body.title,
                 code: body.code,
                 language: body.language,
                 isPublic: body.isPublic ?? false,
-                userId: user.id
+                userId: user.id,
+                source: body.source || "MANUAL" // Track AI vs manual creation  
             }
-        })
-
+        });
         return NextResponse.json(snippet)
     } catch (error) {
         console.error("Error creating snippet:", error)

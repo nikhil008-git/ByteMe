@@ -28,6 +28,9 @@ export default function CodeEditor({ initialCode, onCodeChange, activeSnippet }:
     const [title, setTitle] = useState({ title: "" })
     const [language, setLanguage] = useState("typescript");
     const [code, setCode] = useState(initialCode || "// Write your code snippet here...\n\nfunction helloWorld() {\n  console.log('Hello, ByteMe!');\n}\n");
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [aiPrompt, setAiPrompt] = useState("");
+
 
     useEffect(() => {
         if (activeSnippet) {
@@ -63,6 +66,25 @@ export default function CodeEditor({ initialCode, onCodeChange, activeSnippet }:
         setCode(value || "");
         if (onCodeChange) {
             onCodeChange(value);
+        }
+    };
+    const handleAIGenerate = async () => {
+        if (!aiPrompt.trim()) return;
+
+        setIsGenerating(true);
+        try {
+            const response = await axios.post("/api/generate", {
+                prompt: aiPrompt,
+                language: language
+            });
+
+            setCode(response.data.code);
+            setTitle({ title: `AI Generated: ${aiPrompt.slice(0, 30)}...` });
+        } catch (error) {
+            console.error("Error generating code:", error);
+            alert("Failed to generate code");
+        } finally {
+            setIsGenerating(false);
         }
     };
 
@@ -140,6 +162,22 @@ export default function CodeEditor({ initialCode, onCodeChange, activeSnippet }:
                         save
                     </button>
 
+                </div>
+                <div className="flex gap-2 items-center">
+                    <input
+                        type="text"
+                        placeholder="Ask AI to generate code..."
+                        value={aiPrompt}
+                        onChange={(e) => setAiPrompt(e.target.value)}
+                        className="bg-neutral-800 text-neutral-300 text-xs px-2 py-1 rounded outline-none border border-neutral-700 hover:border-neutral-500 transition-colors"
+                    />
+                    <button
+                        onClick={handleAIGenerate}
+                        disabled={isGenerating}
+                        className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 text-white px-3 py-1 rounded text-xs transition-colors"
+                    >
+                        {isGenerating ? "Generating..." : "Generate"}
+                    </button>
                 </div>
 
                 {/* Monaco Editor Container */}

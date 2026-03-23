@@ -17,6 +17,7 @@
     "better-auth": "^1.4.18",
     "dotenv": "^17.2.4",
     "html-to-image": "^1.11.13",
+    "langchain": "^0.1.0",
     "lucide-react": "^0.577.0",
     "nanoid": "^5.1.6",
     "next": "16.1.6",
@@ -25,6 +26,8 @@
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@langchain/core": "^1.1.35",
+    "@langchain/google-genai": "^2.1.26",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/pg": "^8.16.0",
